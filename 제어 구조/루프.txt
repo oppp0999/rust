@@ -1,0 +1,15 @@
+while은 주어진 조건(bool 타입이어야함)이 true로 평가되는 동안 반복하는 루프를 의미한다. 루프 내에, 키워드 break는 루프를 중지하고, loop는 현재의 반복을 중지하고 다음 반복을 계속한다.
+
+let mut cake_amount = 8;
+while cake_amount > 0 {
+    cake_amount -= 1;
+}
+loop는 무한 루프를 의미하고, while true라고 적는것보다 선호되는 방법이다.
+
+let mut x = 5u;
+loop {
+    x += x - 3;
+    if x % 5 == 0 { break; }
+    println(x.to_str());
+}
+이 코드는 기묘한 수열을 출력하고 5로 나뉠 수 있는 수를 찾자마자 멈춘다.

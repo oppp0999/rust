@@ -1,0 +1,65 @@
+열거형은 몇가지 대표값을 갖는 데이터 타입이다. 예를들어, 앞서 봤던 타입을 보자.
+
+enum Shape {
+    Circle(Point, float),
+    Rectangle(Point, Point)
+}
+이 타입의 값은 하나의 Point 구조체와 하나의 부동소수점을 포함하는 Circle, 또는 두 개의 Point 구조체를 갖는 Rectangle 이다. 실행시간 중의 특정 대표값은 C의 "tagged union" 패턴처럼 타입이 가지고 있는 실제 형식의 식별자를 포함하지만, 더 정적인 보증을 한다.
+
+위 선언은 특정 모양을 가리킬 수 있는 Shape 타입을 정의할 것이고, 두 개의 함수 Circle과 Rectangle은 (명시된 타입의 인자가 취해지는)타입의 값을 구성하는데 사용될 수 있다. 그래서 Circle(Point { x: 0f, y: 0f }, 10f)은 새로운 원 모양을 생성하는 방법이다.
+
+열거형 값들은 파라미터를 가질 필요가 없다. 예를 들어, 다음의 enum 선언은 C의 열거형과 동일하다.
+
+enum Direction {
+    North,
+    East,
+    South,
+    West
+}
+이 선언에서 상수로 정의된 North, East, South, 그리고 West는Direction 타입을 가진다.
+
+C 스타일의 열거형이라면(즉, 파라미터를 가지는 열거형 값이 없는 경우), 식별 값을 상수 값으로 명시적으로 설정하는 것이 가능하다.
+
+enum Color {
+  Red = 0xff0000,
+  Green = 0x00ff00,
+  Blue = 0x0000ff
+}
+만약 열거형 값에 식별값이 명시되어 있지 않으면, 기본 값은 앞의 열거형 값에 1을 더한 값이 된다. 만약 첫번째 열거형 값에 식별 값이 없다면, 기본 값은 0이다. 예를 들어, North의 값은 0, East는 1, South는 2, 그리고 West는 3이다.
+
+C와 비슷한 열거형이면, int의 식별값으로 변환하기 위해 as 형변환 연산자를 적용할 수 있다.
+
+복수의 열거값을 가지는 열거형 타입에 대해, 구조파괴는 내용을 얻기위한 유일한 방법이다. area의 정의에서 모든 열거값 생성자는 패턴으로 사용될 수 있다.
+
+use std::float;
+fn area(sh: Shape) -> float {
+    match sh {
+        Circle(_, size) => float::consts::pi * size * size,
+        Rectangle(Point { x, y }, Point { x: x2, y: y2 }) => (x2 - x) * (y2 - y)
+    }
+}
+개별의 필드를 무시하기 위해 _ 하나를 적을 수 있고, Circle(*) 처럼 열거값의 모든 필드를 무시할 수 있다. 간략 형식으로, null의 열거형 패턴은 중괄호없이 적는다.
+
+fn point_from_direction(dir: Direction) -> Point {
+    match dir {
+        North => Point { x:  0f, y:  1f },
+        East  => Point { x:  1f, y:  0f },
+        South => Point { x:  0f, y: -1f },
+        West  => Point { x: -1f, y:  0f }
+    }
+}
+열거값은 구조체가 될 수 있다. 다음을 살펴보자.
+
+use std::float;
+enum Shape {
+    Circle { center: Point, radius: float },
+    Rectangle { top_left: Point, bottom_right: Point }
+}
+fn area(sh: Shape) -> float {
+    match sh {
+        Circle { radius: radius, _ } => float::consts::pi * square(radius),
+        Rectangle { top_left: top_left, bottom_right: bottom_right } => {
+            (bottom_right.x - top_left.x) * (bottom_right.y - top_left.y)
+        }
+    }
+}

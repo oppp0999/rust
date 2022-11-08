@@ -1,0 +1,29 @@
+0. 기본 코드
+fn main() {
+    /* A simple loop */
+    loop {
+        // A tricky calculation
+        if universe::recalibrate() {
+            return;
+        }
+    }
+}
+모듈이름은 c++처럼 더블 콜론을 사용
+
+1. let
+let 키워드는 지역 변수를 나타낸다. 변수는 기본적으로 변하지 않는다. 나중에 재할당할 수 있는 지역 변수를 나타내기 위해, let mut를 사용한다.
+
+let hi = "hi";
+let mut count = 0;
+
+while count < 10 {
+    println(fmt!("count: %?", count));
+    count += 1;
+}
+
+
+ 컴파일러는 첫번째 monster_size는 사용되지 않는다고 판단하고 경고를 표시할 것이다(이 상황은 프로그래머 오류를 발생시킬 가능성이 있기 때문이다). 사용되지 않는 변수가 의도적인 경우, 경고를 없애기 위해, let _monster_size = 50;처럼 이름을 밑줄로 시작하면 된다.
+
+Rust 식별자는 알파벳 문자나 밑줄로 시작하고 그 이후로 알파벳 문자, 숫자, 밑줄의 나열된다. 선호되는 스타일은 함수, 변수, 그리고 모듈 이름은 가독성에 도움을 주기위해 밑줄이 포함된 소문자로 작성하고, 타입은 camel case로 작성한다.
+
+
